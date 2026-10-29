@@ -1,9 +1,17 @@
+from pathlib import Path
+
 from fastapi import FastAPI, HTTPException
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
+
 from src.predict import predict_one, MODEL_PATH
 
-app = FastAPI(title="Customer Churn Prediction API", version="1.0.0",
-              description="Predict customer churn with an XGBoost model.")
+app = FastAPI(
+    title="Customer Churn Prediction API",
+    version="1.0.0",
+    description="Predict customer churn with an XGBoost model.",
+)
+
 
 class CustomerFeatures(BaseModel):
     tenure: int = Field(ge=0, le=100)
@@ -19,13 +27,17 @@ class CustomerFeatures(BaseModel):
     partner: str
     dependents: str
 
+
 @app.get("/")
 def root():
+    # Keep the original root response so existing tests and API clients continue to work.
     return {"message": "Customer Churn Prediction API", "docs": "/docs"}
+
 
 @app.get("/health")
 def health():
     return {"status": "ok", "model_ready": MODEL_PATH.exists()}
+
 
 @app.post("/predict")
 def predict(customer: CustomerFeatures):
@@ -35,3 +47,8 @@ def predict(customer: CustomerFeatures):
         raise HTTPException(status_code=503, detail=str(exc)) from exc
     except Exception as exc:
         raise HTTPException(status_code=400, detail=f"Prediction failed: {exc}") from exc
+
+
+# Serve the new frontend at /app/ without changing the existing API endpoints.
+FRONTEND_DIR = Path(__file__).resolve().parents[1] / "frontend"
+app.mount("/app", StaticFiles(directory=str(FRONTEND_DIR), html=True), name="frontend")

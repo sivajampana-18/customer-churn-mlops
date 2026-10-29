@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7faff">
+  <title>ChurnIQ | Customer Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/app/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="/app/">
+        <span class="brand-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17.5 9 12l3.5 3.5L20 7"/><path d="M15 7h5v5"/></svg></span>
+        <span><strong>Churn<span>IQ</span></strong><small>Customer intelligence</small></span>
+      </a>
+      <div class="nav-label">WORKSPACE</div>
+      <a class="nav-item active" href="#overview"><span class="nav-icon">▦</span> Overview</a>
+      <a class="nav-item" href="#predict"><span class="nav-icon">✳</span> Churn prediction</a>
+      <a class="nav-item" href="#model-status"><span class="nav-icon">⌁</span> Model status</a>
+      <div class="sidebar-bottom">
+        <div class="help-card">
+          <div class="help-icon">✦</div>
+          <strong>Prediction workspace</strong>
+          <p>Use customer details to estimate churn risk with your trained ML model.</p>
+          <a href="/docs" target="_blank" rel="noreferrer">View API docs <span>↗</span></a>
+        </div>
+        <div class="profile">
+          <div class="avatar">ML</div>
+          <div><strong>ML Workspace</strong><small>Local environment</small></div>
+          <span class="profile-dots">•••</span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="breadcrumb">Workspace <span>/</span> <strong>Overview</strong></div>
+        <div class="topbar-right">
+          <div class="live-status"><span class="pulse"></span><span id="top-status">Checking API…</span></div>
+          <div class="top-avatar">ML</div>
+        </div>
+      </header>
+
+      <section class="page-wrap" id="overview">
+        <div class="welcome-row">
+          <div>
+            <div class="eyebrow"><span class="eyebrow-dot"></span> CUSTOMER ANALYTICS</div>
+            <h1>Customer churn <span>overview</span></h1>
+            <p class="page-subtitle">Understand customer risk and generate predictions with your machine learning model.</p>
+          </div>
+          <a class="primary-button small-button" href="#predict"><span>＋</span> New prediction</a>
+        </div>
+
+        <div class="metric-grid">
+          <article class="metric-card">
+            <div class="metric-top"><span class="metric-label">API STATUS</span><span class="metric-icon blue-icon">⌁</span></div>
+            <div class="metric-value" id="api-metric">Checking…</div>
+            <div class="metric-foot"><span class="status-dot" id="api-dot"></span><span id="api-detail">Connecting to local service</span></div>
+          </article>
+          <article class="metric-card">
+            <div class="metric-top"><span class="metric-label">MODEL STATUS</span><span class="metric-icon purple-icon">◈</span></div>
+            <div class="metric-value" id="model-metric">Checking…</div>
+            <div class="metric-foot"><span class="status-dot" id="model-dot"></span><span id="model-detail">Checking saved model</span></div>
+          </article>
+          <article class="metric-card">
+            <div class="metric-top"><span class="metric-label">PREDICTIONS THIS SESSION</span><span class="metric-icon green-icon">↗</span></div>
+            <div class="metric-value" id="prediction-count">0</div>
+            <div class="metric-foot"><span class="foot-neutral">Live session</span><span>· resets when page reloads</span></div>
+          </article>
+          <article class="metric-card">
+            <div class="metric-top"><span class="metric-label">LAST RISK LEVEL</span><span class="metric-icon orange-icon">◎</span></div>
+            <div class="metric-value" id="last-risk">—</div>
+            <div class="metric-foot"><span class="foot-neutral" id="last-risk-detail">Run a prediction to see risk</span></div>
+          </article>
+        </div>
+
+        <div class="content-grid">
+          <section class="panel prediction-panel" id="predict">
+            <div class="panel-heading">
+              <div>
+                <div class="section-kicker">PREDICTION ENGINE</div>
+                <h2>Predict customer churn</h2>
+                <p>Enter the customer's account and service details below.</p>
+              </div>
+              <div class="panel-badge"><span class="badge-spark">✦</span> XGBoost model</div>
+            </div>
+            <form id="prediction-form">
+              <div class="form-section-title"><span class="section-number">01</span><div><strong>Account information</strong><small>Customer tenure and billing</small></div></div>
+              <div class="form-grid">
+                <label>Tenure <span class="field-hint">(months)</span><input name="tenure" type="number" min="0" max="100" value="12" required></label>
+                <label>Monthly charges <span class="field-hint">($)</span><input name="monthly_charges" type="number" min="0" max="10000" step="0.01" value="70.5" required></label>
+                <label class="full-field">Total charges <span class="field-hint">($)</span><input name="total_charges" type="number" min="0" max="1000000" step="0.01" value="846" required></label>
+              </div>
+
+              <div class="form-section-title spaced-title"><span class="section-number">02</span><div><strong>Plan &amp; services</strong><small>Subscription and support preferences</small></div></div>
+              <div class="form-grid">
+                <label>Contract
+                  <select name="contract"><option>Month-to-month</option><option>One year</option><option>Two year</option></select>
+                </label>
+                <label>Internet service
+                  <select name="internet_service"><option>Fiber optic</option><option>DSL</option><option>No</option></select>
+                </label>
+                <label>Tech support
+                  <select name="tech_support"><option>No</option><option>Yes</option><option>No internet service</option></select>
+                </label>
+                <label>Online security
+                  <select name="online_security"><option>No</option><option>Yes</option><option>No internet service</option></select>
+                </label>
+                <label>Payment method
+                  <select name="payment_method"><option>Electronic check</option><option>Mailed check</option><option>Bank transfer (automatic)</option><option>Credit card (automatic)</option></select>
+                </label>
+                <label>Paperless billing
+                  <select name="paperless_billing"><option>Yes</option><option>No</option></select>
+                </label>
+              </div>
+
+              <div class="form-section-title spaced-title"><span class="section-number">03</span><div><strong>Customer profile</strong><small>Household information</small></div></div>
+              <div class="form-grid">
+                <label>Senior citizen
+                  <select name="senior_citizen"><option value="0">No</option><option value="1">Yes</option></select>
+                </label>
+                <label>Has partner
+                  <select name="partner"><option>No</option><option>Yes</option></select>
+                </label>
+                <label class="full-field">Has dependents
+                  <select name="dependents"><option>No</option><option>Yes</option></select>
+                </label>
+              </div>
+
+              <div class="form-actions">
+                <button type="reset" class="secondary-button" id="reset-button">Reset form</button>
+                <button type="submit" class="primary-button" id="predict-button"><span class="button-spark">✦</span> Predict churn <span class="button-arrow">→</span></button>
+              </div>
+              <p class="form-note"><span>ⓘ</span> Predictions are estimates from the currently saved model, not guarantees of customer behavior.</p>
+            </form>
+          </section>
+
+          <aside class="right-column">
+            <section class="panel result-panel" aria-live="polite">
+              <div class="result-head"><div><div class="section-kicker">MODEL OUTPUT</div><h2>Prediction result</h2></div><span class="result-symbol">↗</span></div>
+              <div class="empty-result" id="empty-result">
+                <div class="empty-illustration"><div class="empty-circle">✦</div><div class="empty-line line-one"></div><div class="empty-line line-two"></div><div class="empty-line line-three"></div></div>
+                <strong>Your result will appear here</strong>
+                <p>Complete the customer form and select <b>Predict churn</b> to see the model's estimate.</p>
+              </div>
+              <div class="result-content hidden" id="result-content">
+                <div class="result-label">CHURN PREDICTION</div>
+                <div class="prediction-word" id="prediction-word">—</div>
+                <p class="prediction-caption" id="prediction-caption">Model prediction</p>
+                <div class="probability-row"><span>Churn probability</span><strong id="probability-number">0%</strong></div>
+                <div class="progress-track"><div class="progress-fill" id="probability-bar"></div></div>
+                <div class="risk-box" id="risk-box"><span class="risk-dot"></span><div><small>RISK CLASSIFICATION</small><strong id="risk-level">—</strong></div><span class="risk-pill" id="risk-pill">—</span></div>
+                <div class="result-foot"><span>✓</span> Prediction returned by your FastAPI backend</div>
+              </div>
+              <div class="error-box hidden" id="error-box"></div>
+            </section>
+
+            <section class="panel insight-panel">
+              <div class="insight-icon">✧</div>
+              <div class="insight-copy"><div class="section-kicker">QUICK INSIGHT</div><h3>What does churn risk mean?</h3><p>Higher probability means the model estimates a greater chance that a customer will leave. Use the result as a decision-support signal, not a certainty.</p></div>
+            </section>
+
+            <section class="panel system-panel" id="model-status">
+              <div class="system-title"><h3>System connection</h3><button id="refresh-status" class="refresh-button" title="Refresh API status">↻</button></div>
+              <div class="system-row"><span class="system-symbol">⌘</span><span><strong>FastAPI backend</strong><small>Local API service</small></span><span class="system-state" id="backend-state">Checking</span></div>
+              <div class="system-row"><span class="system-symbol purple-icon">◈</span><span><strong>Saved ML model</strong><small>churn_model.joblib</small></span><span class="system-state" id="saved-model-state">Checking</span></div>
+              <a class="docs-link" href="/docs" target="_blank" rel="noreferrer">Open interactive API docs <span>↗</span></a>
+            </section>
+          </aside>
+        </div>
+        <footer class="footer"><span>ChurnIQ <span class="footer-dot">•</span> Customer churn intelligence</span><span>Powered by FastAPI + XGBoost <span class="footer-dot">•</span> Local demo</span></footer>
+      </section>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="/app/app.js"></script>
+</body>
+</html>
