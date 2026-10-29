@@ -1,0 +1,16 @@
+CUSTOMER CHURN PREDICTION - QUICK START
+
+1. Extract customer_churn_mlops.zip.
+2. Open PowerShell in the customer_churn_mlops folder.
+3. Run these commands:
+
+   py -3.11 -m venv .venv
+   .\.venv\Scripts\Activate.ps1
+   pip install -r requirements.txt
+   python -m src.data.generate_data
+   python -m src.train
+   uvicorn src.api:app --reload
+
+4. Open http://127.0.0.1:8000/docs
+5. Use POST /predict with the example JSON in README.md.
+6. Run tests in a second terminal with `pytest -q`.
